@@ -1,12 +1,12 @@
 package br.com.alurachallengejean.api.aluraflix.infra.exceptions;
 
 import br.com.alurachallengejean.api.aluraflix.infra.exceptions.dto.ExceptionBadRequestResponseDto;
+import jakarta.persistence.EntityNotFoundException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-
-import java.util.List;
 
 @RestControllerAdvice
 public class ExceptionHanlderAdvice {
@@ -15,6 +15,11 @@ public class ExceptionHanlderAdvice {
     public ResponseEntity handleBadRequestError(MethodArgumentNotValidException exception) {
         var exceptionBadRequestResponseDtos = exception.getFieldErrors().stream().map(ExceptionBadRequestResponseDto::new).toList();
         return ResponseEntity.badRequest().body(exceptionBadRequestResponseDtos);
+    }
+
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ResponseEntity handleNotFoundException() {
+        return new ResponseEntity("Not found", HttpStatus.NOT_FOUND);
     }
 
 }
