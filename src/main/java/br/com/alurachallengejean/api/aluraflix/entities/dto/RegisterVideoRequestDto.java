@@ -3,14 +3,14 @@ package br.com.alurachallengejean.api.aluraflix.entities.dto;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
-public record RegisterVideoDto(
-        @NotBlank
+public record RegisterVideoRequestDto(
+        @NotBlank(message = "title is required")
         @Size(max = 120, message = "Maximum allowed length of 120 characters")
         String title,
-        @NotBlank
+        @NotBlank(message = "description is required")
         @Size(max = 400, message = "Maximum allowed length of 400 characters")
         String description,
-        @NotBlank
+        @NotBlank(message = "url is required")
         @Size(max = 300, message = "Maximum allowed length of 300 characters")
         String url
 ) {
