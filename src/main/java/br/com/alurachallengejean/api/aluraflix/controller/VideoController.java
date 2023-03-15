@@ -4,9 +4,11 @@ package br.com.alurachallengejean.api.aluraflix.controller;
 import br.com.alurachallengejean.api.aluraflix.entities.Video;
 import br.com.alurachallengejean.api.aluraflix.entities.dto.GenericResultResponseDto;
 import br.com.alurachallengejean.api.aluraflix.entities.dto.RegisterVideoRequestDto;
+import br.com.alurachallengejean.api.aluraflix.entities.dto.UpdateVideoRequestDto;
 import br.com.alurachallengejean.api.aluraflix.entities.dto.VideoDetailtedResponseDto;
 import br.com.alurachallengejean.api.aluraflix.repositories.VideoRepository;
 import jakarta.validation.Valid;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -54,6 +56,15 @@ public class VideoController {
         video.setActive(false);
 
         return ResponseEntity.ok("successfully deleted");
+    }
+
+    @PutMapping
+    @Transactional
+    public ResponseEntity update(@RequestBody @Valid UpdateVideoRequestDto videoRequestDto) {
+        var video = videoRepository.getReferenceById(videoRequestDto.id());
+        video.updateInfos(videoRequestDto);
+
+        return ResponseEntity.ok(new VideoDetailtedResponseDto(video));
     }
 
 }

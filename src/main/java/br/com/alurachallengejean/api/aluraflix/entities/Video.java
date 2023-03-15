@@ -1,6 +1,7 @@
 package br.com.alurachallengejean.api.aluraflix.entities;
 
 import br.com.alurachallengejean.api.aluraflix.entities.dto.RegisterVideoRequestDto;
+import br.com.alurachallengejean.api.aluraflix.entities.dto.UpdateVideoRequestDto;
 import jakarta.persistence.*;
 
 @Entity(name = "Video")
@@ -64,5 +65,14 @@ public class Video {
 
     public void setActive(Boolean active) {
         isActive = active;
+    }
+
+    public void updateInfos(UpdateVideoRequestDto videoRequestDto) {
+        if (videoRequestDto.title() != null)
+            this.title = videoRequestDto.title();
+        if (videoRequestDto.description() != null)
+            this.description = videoRequestDto.description();
+        if (videoRequestDto.url() != null)
+            this.url = videoRequestDto.url();
     }
 }
