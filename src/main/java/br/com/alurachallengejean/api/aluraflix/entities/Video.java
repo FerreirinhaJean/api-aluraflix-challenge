@@ -1,5 +1,6 @@
 package br.com.alurachallengejean.api.aluraflix.entities;
 
+import br.com.alurachallengejean.api.aluraflix.entities.dto.RegisterVideoDto;
 import jakarta.persistence.*;
 
 @Entity(name = "Video")
@@ -14,6 +15,12 @@ public class Video {
 
     public Video() {
 
+    }
+
+    public Video(RegisterVideoDto videoDto) {
+        this.title = videoDto.title();
+        this.description = videoDto.description();
+        this.url = videoDto.url();
     }
 
     public Long getId() {
