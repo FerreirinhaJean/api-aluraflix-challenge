@@ -1,5 +1,6 @@
 package br.com.alurachallengejean.api.aluraflix.infra.exceptions;
 
+import br.com.alurachallengejean.api.aluraflix.entities.dto.GenericResultResponseDto;
 import br.com.alurachallengejean.api.aluraflix.infra.exceptions.dto.ExceptionBadRequestResponseDto;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -19,7 +20,7 @@ public class ExceptionHanlderAdvice {
 
     @ExceptionHandler(EntityNotFoundException.class)
     public ResponseEntity handleNotFoundException() {
-        return new ResponseEntity("Not found", HttpStatus.NOT_FOUND);
+        return new ResponseEntity(new GenericResultResponseDto("Not found"), HttpStatus.NOT_FOUND);
     }
 
 }

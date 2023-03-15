@@ -2,11 +2,13 @@ package br.com.alurachallengejean.api.aluraflix.controller;
 
 
 import br.com.alurachallengejean.api.aluraflix.entities.Video;
+import br.com.alurachallengejean.api.aluraflix.entities.dto.GenericResultResponseDto;
 import br.com.alurachallengejean.api.aluraflix.entities.dto.RegisterVideoRequestDto;
 import br.com.alurachallengejean.api.aluraflix.entities.dto.VideoDetailtedResponseDto;
 import br.com.alurachallengejean.api.aluraflix.repositories.VideoRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -32,14 +34,26 @@ public class VideoController {
     @GetMapping(value = "/{id}")
     public ResponseEntity findById(@PathVariable Long id) {
         var video = videoRepository.getReferenceById(id);
-        return ResponseEntity.ok(new VideoDetailtedResponseDto(video));
+        if (video.getActive())
+            return ResponseEntity.ok(new VideoDetailtedResponseDto(video));
+
+        return new ResponseEntity(new GenericResultResponseDto("Not found"), HttpStatus.NOT_FOUND);
     }
 
     @GetMapping
     public ResponseEntity findAll() {
-        var videos = videoRepository.findAll();
+        var videos = videoRepository.findAllByIsActiveTrue();
         var videosResponseDto = videos.stream().map(VideoDetailtedResponseDto::new).toList();
         return ResponseEntity.ok(videosResponseDto);
+    }
+
+    @DeleteMapping(value = "/{id}")
+    @Transactional
+    public ResponseEntity delete(@PathVariable Long id) {
+        var video = videoRepository.getReferenceById(id);
+        video.setActive(false);
+
+        return ResponseEntity.ok("successfully deleted");
     }
 
 }

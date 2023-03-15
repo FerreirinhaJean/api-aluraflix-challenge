@@ -12,6 +12,8 @@ public class Video {
     private String title;
     private String description;
     private String url;
+    @Column(name = "is_active")
+    private Boolean isActive;
 
     public Video() {
 
@@ -21,6 +23,7 @@ public class Video {
         this.title = videoDto.title();
         this.description = videoDto.description();
         this.url = videoDto.url();
+        this.isActive = true;
     }
 
     public Long getId() {
@@ -53,5 +56,13 @@ public class Video {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public Boolean getActive() {
+        return isActive;
+    }
+
+    public void setActive(Boolean active) {
+        isActive = active;
     }
 }
