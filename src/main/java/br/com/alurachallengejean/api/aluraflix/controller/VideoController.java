@@ -35,4 +35,11 @@ public class VideoController {
         return ResponseEntity.ok(new VideoDetailtedResponseDto(video));
     }
 
+    @GetMapping
+    public ResponseEntity findAll() {
+        var videos = videoRepository.findAll();
+        var videosResponseDto = videos.stream().map(VideoDetailtedResponseDto::new).toList();
+        return ResponseEntity.ok(videosResponseDto);
+    }
+
 }
