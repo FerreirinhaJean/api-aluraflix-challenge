@@ -55,7 +55,7 @@ public class VideoController {
         var video = videoRepository.getReferenceById(id);
         video.setActive(false);
 
-        return ResponseEntity.ok("successfully deleted");
+        return ResponseEntity.ok(new GenericResultResponseDto("successfully deleted"));
     }
 
     @PutMapping
