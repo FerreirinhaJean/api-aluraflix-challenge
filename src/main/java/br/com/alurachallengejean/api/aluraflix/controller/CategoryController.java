@@ -2,7 +2,9 @@ package br.com.alurachallengejean.api.aluraflix.controller;
 
 import br.com.alurachallengejean.api.aluraflix.entities.Category;
 import br.com.alurachallengejean.api.aluraflix.entities.dto.CategoryDetailtedResponseDto;
+import br.com.alurachallengejean.api.aluraflix.entities.dto.GenericResultResponseDto;
 import br.com.alurachallengejean.api.aluraflix.entities.dto.RegisterCategoryRequestDto;
+import br.com.alurachallengejean.api.aluraflix.entities.dto.UpdateCategoryRequestDto;
 import br.com.alurachallengejean.api.aluraflix.repositories.CategoryRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +37,7 @@ public class CategoryController {
         if (category.getActive())
             return ResponseEntity.ok(new CategoryDetailtedResponseDto(category));
 
-        return new ResponseEntity("Not found", HttpStatus.NOT_FOUND);
+        return new ResponseEntity(new GenericResultResponseDto("Not found"), HttpStatus.NOT_FOUND);
     }
 
     @GetMapping
@@ -43,6 +45,22 @@ public class CategoryController {
         var categories = categoryRepository.findAllByIsActiveTrue();
         var categoriesDto = categories.stream().map(CategoryDetailtedResponseDto::new).toList();
         return ResponseEntity.ok(categoriesDto);
+    }
+
+    @DeleteMapping
+    @Transactional
+    public ResponseEntity delete(@PathVariable Long id) {
+        var category = categoryRepository.getReferenceById(id);
+        category.setActive(false);
+        return ResponseEntity.ok(new GenericResultResponseDto("successfully deleted"));
+    }
+
+    @PutMapping
+    @Transactional
+    public ResponseEntity update(@RequestBody @Valid UpdateCategoryRequestDto categoryRequestDto) {
+        var category = categoryRepository.getReferenceById(categoryRequestDto.id());
+        category.updateInfos(categoryRequestDto);
+        return ResponseEntity.ok(new CategoryDetailtedResponseDto(category));
     }
 
 }

@@ -1,6 +1,7 @@
 package br.com.alurachallengejean.api.aluraflix.entities;
 
 import br.com.alurachallengejean.api.aluraflix.entities.dto.RegisterCategoryRequestDto;
+import br.com.alurachallengejean.api.aluraflix.entities.dto.UpdateCategoryRequestDto;
 import jakarta.persistence.*;
 
 @Entity(name = "Category")
@@ -54,5 +55,13 @@ public class Category {
 
     public void setActive(Boolean active) {
         isActive = active;
+    }
+
+    public void updateInfos(UpdateCategoryRequestDto categoryRequestDto) {
+        if (categoryRequestDto.title() != null)
+            this.title = categoryRequestDto.title();
+        if (categoryRequestDto.color() != null) {
+            this.color = categoryRequestDto.color();
+        }
     }
 }
