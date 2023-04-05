@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface VideoRepository extends JpaRepository<Video, Long> {
     List<Video> findAllByIsActiveTrue();
+
+    boolean existsByCategoryId(Long id);
 }

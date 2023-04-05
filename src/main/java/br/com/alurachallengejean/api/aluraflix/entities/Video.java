@@ -16,6 +16,10 @@ public class Video {
     @Column(name = "is_active")
     private Boolean isActive;
 
+    @ManyToOne
+    @JoinColumn(name = "categories_id")
+    private Category category;
+
     public Video() {
 
     }
@@ -65,6 +69,14 @@ public class Video {
 
     public void setActive(Boolean active) {
         isActive = active;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 
     public void updateInfos(UpdateVideoRequestDto videoRequestDto) {

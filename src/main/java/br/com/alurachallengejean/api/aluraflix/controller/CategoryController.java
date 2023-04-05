@@ -6,6 +6,7 @@ import br.com.alurachallengejean.api.aluraflix.entities.dto.GenericResultRespons
 import br.com.alurachallengejean.api.aluraflix.entities.dto.RegisterCategoryRequestDto;
 import br.com.alurachallengejean.api.aluraflix.entities.dto.UpdateCategoryRequestDto;
 import br.com.alurachallengejean.api.aluraflix.repositories.CategoryRepository;
+import br.com.alurachallengejean.api.aluraflix.services.CategoryService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,6 +21,9 @@ public class CategoryController {
 
     @Autowired
     private CategoryRepository categoryRepository;
+
+    @Autowired
+    private CategoryService categoryService;
 
     @PostMapping
     @Transactional
@@ -47,11 +51,12 @@ public class CategoryController {
         return ResponseEntity.ok(categoriesDto);
     }
 
-    @DeleteMapping
+    @DeleteMapping(value = "/{id}")
     @Transactional
     public ResponseEntity delete(@PathVariable Long id) {
-        var category = categoryRepository.getReferenceById(id);
-        category.setActive(false);
+        var category = categoryService.delete(id);
+//        var category = categoryRepository.getReferenceById(id);
+//        category.setActive(false);
         return ResponseEntity.ok(new GenericResultResponseDto("successfully deleted"));
     }
 

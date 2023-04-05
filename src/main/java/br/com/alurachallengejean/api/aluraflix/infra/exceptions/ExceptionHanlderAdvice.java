@@ -23,4 +23,9 @@ public class ExceptionHanlderAdvice {
         return new ResponseEntity(new GenericResultResponseDto("Not found"), HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(ExceptionHandlerValidation.class)
+    public ResponseEntity handleValidationException(ExceptionHandlerValidation exceptionHandlerValidation) {
+        return ResponseEntity.badRequest().body(exceptionHandlerValidation.getMessage());
+    }
+
 }

@@ -1,5 +1,6 @@
 package br.com.alurachallengejean.api.aluraflix.entities.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
@@ -12,6 +13,8 @@ public record RegisterVideoRequestDto(
         String description,
         @NotBlank(message = "url is required")
         @Size(max = 300, message = "Maximum allowed length of 300 characters")
-        String url
+        String url,
+        @JsonProperty("id_category")
+        Long idCategory
 ) {
 }

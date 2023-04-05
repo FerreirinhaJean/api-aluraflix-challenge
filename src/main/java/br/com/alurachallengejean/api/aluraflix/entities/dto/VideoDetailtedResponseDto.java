@@ -6,9 +6,10 @@ public record VideoDetailtedResponseDto(
         Long id,
         String title,
         String description,
-        String url
+        String url,
+        CategoryDetailtedResponseDto category
 ) {
     public VideoDetailtedResponseDto(Video video) {
-        this(video.getId(), video.getTitle(), video.getDescription(), video.getUrl());
+        this(video.getId(), video.getTitle(), video.getDescription(), video.getUrl(), new CategoryDetailtedResponseDto(video.getCategory()));
     }
 }

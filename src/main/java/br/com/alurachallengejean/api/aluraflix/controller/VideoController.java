@@ -6,7 +6,9 @@ import br.com.alurachallengejean.api.aluraflix.entities.dto.GenericResultRespons
 import br.com.alurachallengejean.api.aluraflix.entities.dto.RegisterVideoRequestDto;
 import br.com.alurachallengejean.api.aluraflix.entities.dto.UpdateVideoRequestDto;
 import br.com.alurachallengejean.api.aluraflix.entities.dto.VideoDetailtedResponseDto;
+import br.com.alurachallengejean.api.aluraflix.repositories.CategoryRepository;
 import br.com.alurachallengejean.api.aluraflix.repositories.VideoRepository;
+import br.com.alurachallengejean.api.aluraflix.services.VIdeoService;
 import jakarta.validation.Valid;
 import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,11 +25,13 @@ public class VideoController {
     @Autowired
     private VideoRepository videoRepository;
 
+    @Autowired
+    private VIdeoService vIdeoService;
+
     @PostMapping
     @Transactional
     public ResponseEntity create(@RequestBody @Valid RegisterVideoRequestDto videoDto, UriComponentsBuilder uriBuilder) {
-        var video = new Video(videoDto);
-        videoRepository.save(video);
+        var video = vIdeoService.create(videoDto);
         var uri = uriBuilder.path("/videos/{id}").buildAndExpand(video.getId()).toUri();
 
         return ResponseEntity.created(uri).body(new VideoDetailtedResponseDto(video));

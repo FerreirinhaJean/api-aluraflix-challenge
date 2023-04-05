@@ -25,6 +25,10 @@ public class Category {
         this.isActive = true;
     }
 
+    public Category(Long id) {
+        this.id = id;
+    }
+
     public Long getId() {
         return id;
     }
